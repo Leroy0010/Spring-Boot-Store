@@ -19,14 +19,23 @@ public class JwtService {
     private final JwtConfig jwtConfig;
 
 
-    public String generateAccessToken(User user) {
+    public Jwt generateAccessToken(User user) {
         var userClaims = Map.of("email", user.getEmail(), "name", user.getName(), "role", user.getRole().name());
         return generateToken(user.getId(), userClaims, jwtConfig.getTokenExpiration());
     }
 
-    public String generateRefreshToken(User user) {
+    public Jwt generateRefreshToken(User user) {
         var userClaims = Map.of("email", user.getEmail(), "name", user.getName(), "role", user.getRole().name());
         return generateToken(user.getId(), userClaims, jwtConfig.getRefreshTokenExpiration());
+    }
+
+    public Jwt parseToken(String token) {
+        try {
+            var claims = getClaims(token);
+            return new Jwt(claims, jwtConfig.getSecretKey());
+        } catch (JwtException e) {
+            return null;
+        }
     }
 
 
@@ -42,22 +51,17 @@ public class JwtService {
     }
 
 
-    public UUID getUserIdFromToken(String token) {
-        return UUID.fromString(getClaims(token).getSubject());
-    }
 
-    public Role getRoleFromToken(String token) {
-        return Role.valueOf(getClaims(token).get("role", String.class));
-    }
 
-    private String generateToken(UUID userId, Map<String, String> userClaims, long tokenExpiration) {
-        return Jwts.builder()
+    private Jwt generateToken(UUID userId, Map<String, String> userClaims, long tokenExpiration) {
+        var claims = Jwts.claims()
                 .subject(userId.toString())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + 1000 * tokenExpiration))
-                .signWith(jwtConfig.getSecretKey())
-                .claims(userClaims)
-                .compact();
+                .add(userClaims)
+                .build();
+        return new Jwt(claims, jwtConfig.getSecretKey());
+
     }
 
     private Claims getClaims(String token) {
