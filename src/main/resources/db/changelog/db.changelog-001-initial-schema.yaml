@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: initial-schema
+      author: Leroy
+      sqlFile:
+        path: ../script/initial-schema.sql
+        relativeToChangeLogFile: true
+        splitStatements: false
+        stripComments: true

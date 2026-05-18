@@ -1,0 +1,15 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: store
+  datasource:
+    url: jdbc:postgresql://localhost:5433/store_db
+    password: leroy001
+    username: postgres
+  jpa:
+    open-in-view: false
+    show-sql: true
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+    enabled: true

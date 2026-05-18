@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: alter-cart-table
+      author: Leroy
+      sqlFile:
+        path: ../script/alter-cart-table.sql
+        relativeToChangeLogFile: true
+        splitStatements: false
+        stripComments: true
