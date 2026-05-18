@@ -13,3 +13,6 @@ spring:
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.yaml
     enabled: true
+
+jwt:
+  token: ${JWT_TOKEN}
