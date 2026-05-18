@@ -5,3 +5,5 @@ databaseChangeLog:
       file: db/changelog/db.changelog-002-cart-schema.yaml
   - include:
       file: db/changelog/db.changelog-003-alter-cart-table.yaml
+  - include:
+      file: db/changelog/db.changelog-004-add-role-to-users.yaml

@@ -3,6 +3,7 @@ package com.leroy.store.controllers;
 import com.leroy.store.dtos.RegisterUserRequest;
 import com.leroy.store.dtos.UpdateUserRequest;
 import com.leroy.store.dtos.UserDto;
+import com.leroy.store.entities.Role;
 import com.leroy.store.mappers.UserMapper;
 import com.leroy.store.repositories.UserRepository;
 import jakarta.validation.Valid;
@@ -58,6 +59,7 @@ public class UserController {
         }
         var user = userMapper.toEntity(request);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole(Role.USER);
         var savedUser = userRepository.save(user);
 
 

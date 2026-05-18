@@ -13,6 +13,17 @@ spring:
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.yaml
     enabled: true
+  thymeleaf:
+    check-template-location: false
+
 
 jwt:
-  token: ${JWT_TOKEN}
+  secret: ${JWT_TOKEN_SECRET}
+  token-expiration: ${JWT_TOKEN_EXPIRATION:300}
+  refresh-token-expiration: ${JWT_REFRESH_EXPIRATION:604800}
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true

@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-role-to-users
+      author: Leroy
+      sqlFile:
+        path: ../script/add-role-to-users.sql
+        relativeToChangeLogFile: true
+        splitStatements: false
+        stripComments: true
