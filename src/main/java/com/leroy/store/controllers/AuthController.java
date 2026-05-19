@@ -6,6 +6,7 @@ import com.leroy.store.dtos.LoginRequest;
 import com.leroy.store.dtos.UserDto;
 import com.leroy.store.mappers.UserMapper;
 import com.leroy.store.repositories.UserRepository;
+import com.leroy.store.services.AuthService;
 import com.leroy.store.services.JwtService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,12 +17,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -32,6 +30,7 @@ public class AuthController {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final JwtConfig jwtConfig;
+    private final AuthService authService;
 
 
     @PostMapping("/login")
@@ -60,14 +59,7 @@ public class AuthController {
 
     @GetMapping("/me")
     public ResponseEntity<UserDto> me(){
-        var authentication =  SecurityContextHolder.getContext().getAuthentication();
-        assert authentication != null;
-
-        var userId = UUID.fromString(Objects.requireNonNull(authentication.getPrincipal()).toString());
-        var user = userRepository.findById(userId).orElse(null);
-        if(user == null){
-            return ResponseEntity.notFound().build();
-        }
+       var user = authService.getAuthenticatedUser();
 
         return ResponseEntity.ok(userMapper.toDto(user));
     }

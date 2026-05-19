@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: orders-schema
+      author: Leroy
+      sqlFile:
+        path: ../script/orders-schema.sql
+        relativeToChangeLogFile: true
+        splitStatements: false
+        stripComments: true

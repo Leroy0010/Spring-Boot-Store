@@ -14,10 +14,12 @@ import java.util.*;
 @Builder
 @Entity
 @Table(name = "users")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class User {
     @Id
     @UuidGenerator
     @Column(name = "id")
+    @EqualsAndHashCode.Include
     private UUID id;
 
     @Column(name = "name")
@@ -66,6 +68,7 @@ public class User {
     public void addFavoriteProduct(Product product) {
         wishlist.add(product);
     }
+
 
     @Override
     public String toString() {

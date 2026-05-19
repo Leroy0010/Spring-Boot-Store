@@ -133,6 +133,12 @@
             <artifactId>springboot4-dotenv</artifactId>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>com.stripe</groupId>
+            <artifactId>stripe-java</artifactId>
+            <version>32.1.0</version>
+            <scope>compile</scope>
+        </dependency>
 
 
     </dependencies>
