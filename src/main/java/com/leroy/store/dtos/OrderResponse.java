@@ -1,6 +1,6 @@
 package com.leroy.store.dtos;
 
-import com.leroy.store.entities.OrderStatus;
+import com.leroy.store.entities.PaymentStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,7 +16,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class OrderResponse {
     private UUID id;
-    private OrderStatus status;
+    private PaymentStatus status;
     private LocalDateTime createdAt;
     private List<OrderItemDto> items = new ArrayList<>();
     private BigDecimal totalPrice;

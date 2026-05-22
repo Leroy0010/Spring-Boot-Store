@@ -1,4 +1,4 @@
-package com.leroy.store.dtos;
+package com.leroy.store.payment;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,4 +11,6 @@ import java.util.UUID;
 @NoArgsConstructor
 public class CheckoutResponse {
     private UUID checkoutId;
+    private String checkoutUrl;
+
 }

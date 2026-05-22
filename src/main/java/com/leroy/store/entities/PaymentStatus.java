@@ -1,6 +1,6 @@
 package com.leroy.store.entities;
 
-public enum OrderStatus {
+public enum PaymentStatus {
     PENDING,
     PAYED,
     FAILED,

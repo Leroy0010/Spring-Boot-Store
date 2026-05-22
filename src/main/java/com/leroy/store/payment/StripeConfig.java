@@ -1,4 +1,4 @@
-package com.leroy.store.config;
+package com.leroy.store.payment;
 
 import com.stripe.Stripe;
 import jakarta.annotation.PostConstruct;

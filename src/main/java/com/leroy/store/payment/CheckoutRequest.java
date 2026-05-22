@@ -1,4 +1,4 @@
-package com.leroy.store.dtos;
+package com.leroy.store.payment;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;

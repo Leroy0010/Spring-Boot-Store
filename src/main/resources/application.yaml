@@ -22,8 +22,12 @@ jwt:
   token-expiration: ${JWT_TOKEN_EXPIRATION:300}
   refresh-token-expiration: ${JWT_REFRESH_EXPIRATION:604800}
 
+
 stripe:
   secret-key: ${STRIPE_SECRET_KEY}
+  webhook-secret-key: ${STRIPE_WEBHOOK_SCRET_KEY}
+
+frontend-url: http://localhost4242
 
 springdoc:
   api-docs:

@@ -42,6 +42,7 @@ public class SecurityConfig {
                         .requestMatchers("/auth/refresh").permitAll()
                         .requestMatchers("/auth/me").authenticated()
                         .requestMatchers("/admin/**").hasRole(Role.ADMIN.name())
+                        .requestMatchers(("/checkout/webhook")).permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(c -> {
