@@ -33,7 +33,8 @@ public class StripePaymentGateway implements PaymentGateway {
                     .setMode(SessionCreateParams.Mode.PAYMENT)
                     .setSuccessUrl(websiteUrl + "/checkout-success?orderId=" + order.getId())
                     .setCancelUrl(websiteUrl + "/checkout-cancel")
-                    .putMetadata("order_id", order.getId().toString());
+                    .setPaymentIntentData(setPaymentIntentData(order));
+
 
             order.getItems()
                     .forEach(item -> {
@@ -51,6 +52,7 @@ public class StripePaymentGateway implements PaymentGateway {
             throw new PaymentException();
         }
     }
+
 
     @Override
     public Optional<PaymentResult> parseWebhookRequest(WebhookRequest webhookRequest) {
@@ -98,6 +100,12 @@ public class StripePaymentGateway implements PaymentGateway {
     private SessionCreateParams.LineItem.PriceData.ProductData createProductData(OrderItem item) {
         return SessionCreateParams.LineItem.PriceData.ProductData.builder()
                 .setName(item.getProduct().getName())
+                .build();
+    }
+
+    private static SessionCreateParams.PaymentIntentData setPaymentIntentData(Order order) {
+        return SessionCreateParams.PaymentIntentData.builder()
+                .putMetadata("order_id", order.getId().toString())
                 .build();
     }
 }

@@ -47,7 +47,7 @@ public class SecurityConfig {
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(c -> {
                             c.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
-                            c.accessDeniedHandler((request, response, accessDeniedException) ->
+                            c.accessDeniedHandler((_, response, _) ->
                                     response.setStatus(HttpStatus.FORBIDDEN.value()));
                         }
                 );
