@@ -42,6 +42,11 @@ public class SecurityConfig {
                         .requestMatchers("/auth/refresh").permitAll()
                         .requestMatchers("/auth/me").authenticated()
                         .requestMatchers("/admin/**").hasRole(Role.ADMIN.name())
+                        // Catalogue is public to read; only admins may change it.
+                        .requestMatchers(HttpMethod.GET, "/products/**").permitAll()
+                        .requestMatchers("/products/**").hasRole(Role.ADMIN.name())
+                        // Listing every user is an admin operation.
+                        .requestMatchers(HttpMethod.GET, "/users").hasRole(Role.ADMIN.name())
                         .requestMatchers(("/checkout/webhook")).permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
