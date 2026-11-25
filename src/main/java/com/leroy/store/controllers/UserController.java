@@ -9,7 +9,9 @@ import com.leroy.store.repositories.UserRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +41,10 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDto> getUserById(@PathVariable UUID id){
+    public ResponseEntity<UserDto> getUserById(@PathVariable UUID id, Authentication auth){
+        if (!isSelfOrAdmin(id, auth)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
         var user = userRepository.findById(id).orElse(null);
         if(user == null){
             return ResponseEntity.notFound().build();
@@ -70,7 +75,10 @@ public class UserController {
 
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity<UserDto> updateUser(@PathVariable UUID id, @RequestBody UpdateUserRequest request){
+    public ResponseEntity<UserDto> updateUser(@PathVariable UUID id, @Valid @RequestBody UpdateUserRequest request, Authentication auth){
+        if (!isSelfOrAdmin(id, auth)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
         var user = userRepository.findById(id).orElse(null);
         if(user == null){
             return ResponseEntity.notFound().build();
@@ -81,7 +89,10 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable UUID id){
+    public ResponseEntity<Void> deleteUser(@PathVariable UUID id, Authentication auth){
+        if (!isSelfOrAdmin(id, auth)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
         var user = userRepository.findById(id).orElse(null);
         if(user == null){
             return ResponseEntity.notFound().build();
@@ -90,6 +101,11 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-
-
+    /** The JWT filter sets the user's UUID as the principal and ROLE_(role) as the authority. */
+    private static boolean isSelfOrAdmin(UUID id, Authentication auth) {
+        if (auth == null) return false;
+        boolean admin = auth.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_" + Role.ADMIN.name()));
+        return admin || id.equals(auth.getPrincipal());
+    }
 }

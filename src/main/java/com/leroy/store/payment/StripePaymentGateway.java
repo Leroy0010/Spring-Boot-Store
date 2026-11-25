@@ -11,6 +11,7 @@ import com.stripe.model.checkout.Session;
 import com.stripe.net.Webhook;
 import com.stripe.param.checkout.SessionCreateParams;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class StripePaymentGateway implements PaymentGateway {
     @Value("${frontend-url}")
     private String websiteUrl;
@@ -48,7 +50,7 @@ public class StripePaymentGateway implements PaymentGateway {
             return new CheckoutSession(sessionUrl);
 
         } catch (StripeException ex){
-            System.out.println(ex.getMessage());
+            log.error("Stripe checkout session creation failed: {}", ex.getMessage());
             throw new PaymentException();
         }
     }

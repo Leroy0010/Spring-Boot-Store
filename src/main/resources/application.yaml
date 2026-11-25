@@ -4,9 +4,9 @@ spring:
   application:
     name: store
   datasource:
-    url: jdbc:postgresql://localhost:5433/store_db
-    password: leroy001
-    username: postgres
+    url: ${DB_URL:jdbc:postgresql://localhost:5433/store_db}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD}
   jpa:
     open-in-view: false
     show-sql: true
@@ -25,9 +25,9 @@ jwt:
 
 stripe:
   secret-key: ${STRIPE_SECRET_KEY}
-  webhook-secret-key: ${STRIPE_WEBHOOK_SCRET_KEY}
+  webhook-secret-key: ${STRIPE_WEBHOOK_SECRET_KEY:${STRIPE_WEBHOOK_SCRET_KEY:}}
 
-frontend-url: http://localhost4242
+frontend-url: ${FRONTEND_URL:http://localhost:4242}
 
 springdoc:
   api-docs:

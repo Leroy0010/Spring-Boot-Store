@@ -35,7 +35,7 @@ public class Cart {
 
     public CartItem getCartItem(UUID productId) {
         return items.stream()
-                .filter(item -> item.getId().equals(productId))
+                .filter(item -> item.getProduct().getId().equals(productId))
                 .findFirst()
                 .orElse(null);
     }
